@@ -12,6 +12,26 @@ function App() {
     return [x, y];
   }
 
+  const [snakeCoordinates, setSnakeCoordinates] = useState(
+    [
+      [0, 0],
+      [1, 0],
+      [2, 0]
+    ]
+  );
+
+  const [direction, setDirection] = useState(
+    'RIGHT'
+  );
+
+  const [speed, setSpeed] = useState(
+    500
+  );
+
+  const [appleCoordinates, setAppleCoordinates] = useState(
+    getRandomCoordinates()
+  );
+
   const moveSnake = () => {
     let body = snakeCoordinates;
     let head = body[body.length - 1];
@@ -31,48 +51,32 @@ function App() {
     }
     body.push(head);
     body.shift();
+    console.log(body);
     setSnakeCoordinates(body);
   }
 
-  const [appleCoordinates, setAppleCoordinates] = useState(
-    getRandomCoordinates()
-  );
-
-  const [snakeCoordinates, setSnakeCoordinates] = useState(
-    [
-      [0, 0],
-      [1, 0],
-      [2, 0]
-    ]
-  );
-
-  const [direction, setDirection] = useState(
-    'RIGHT'
-  );
-
-  const [speed, setSpeed] = useState(
-    500
-  );
+  React.useEffect(() => {
+    window.addEventListener('keydown', (event) => {
+      event = event || window.event;
+      switch (event.keyCode) {
+        case 38:
+          setDirection('UP');
+          break;
+        case 40:
+          setDirection('DOWN');
+          break;
+        case 37:
+          setDirection('LEFT');
+          break;
+        case 39:
+          setDirection('RIGHT');
+          break;
+      } 
+    });
+  });
 
   React.useEffect(() => {
-    setInterval(moveSnake, speed);
-    window.addEventListener('keydown', (event) => {
-          event = event || window.event;
-          switch (event.keyCode) {
-            case 38:
-              setDirection('UP');
-              break;
-            case 40:
-              setDirection('DOWN');
-              break;
-            case 37:
-              setDirection('LEFT');
-              break;
-            case 39:
-              setDirection('RIGHT');
-              break;
-          } 
-    });
+    const gameInterval = setInterval(() => moveSnake(), speed);
   });
 
   return (
