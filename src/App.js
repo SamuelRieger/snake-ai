@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Snake from './components/Snake.js';
 import Apple from './components/Apple.js';
+import { findAllByDisplayValue } from "@testing-library/react";
 
 function App() {
 
@@ -9,7 +10,7 @@ function App() {
     let freeGridSpaces = getFreeGridSpaces();
     let gridCode = Math.floor((Math.random() * freeGridSpaces.length));
 
-    return [Math.floor(gridCode / 50), gridCode % 50];
+    return [freeGridSpaces[gridCode] % 50, Math.floor(freeGridSpaces[gridCode] / 50)];
   }
 
   // Get all the spaces on the board that the snake body does not occupy.
@@ -20,10 +21,12 @@ function App() {
       let key = snakeCoordinates[i][0] + snakeCoordinates[i][1] * gridSize;
       gridSpaces.splice(key, 1);
     }
+    
     return gridSpaces;
   }
 
   //State variable declerations. ******
+  const [pixelGridSize, setPixelGridSize] = useState(500);
   const [gridSize, setGridSize] = useState(50);
 
   const [snakeCoordinates, setSnakeCoordinates] = useState(
@@ -79,6 +82,22 @@ function App() {
     setUpdate(update => update + 1);
   }
 
+  const snakeLogic = () => {
+    //Snake algorithms and logic.
+    class MinHeap {
+      constructor(array) {
+        this.nodePositionsInHeap = 0;
+        this.heap = this.buildHeap(array);
+      }
+      isEmpty() {
+        if (this.heap.length == 0) {
+          return true;
+        }
+        return false;
+      }
+    }
+  }
+
   // Increase the snakes size once an apple is eaten.
   const growSnake = () => {
     let newSnake = [...snakeCoordinates];
@@ -95,6 +114,7 @@ function App() {
     if (head[0] == appleCoordinates[0] && head[1] == appleCoordinates[1]) {
       setAppleCoordinates(getRandomCoordinates());
       growSnake();
+      snakeLogic();
     }
   }
 
@@ -163,7 +183,7 @@ function App() {
   return (
     <div className='App'>
       <div className='game-area'>
-        <Snake snakeCoordinates={snakeCoordinates} />
+        <Snake snakeCoordinates={snakeCoordinates} direction={direction} pixelGridSize={pixelGridSize} />
         <Apple appleCoordinates={appleCoordinates} />
       </div>
     </div>
