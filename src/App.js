@@ -86,15 +86,78 @@ function App() {
     //Snake algorithms and logic.
     class MinHeap {
       constructor(array) {
-        this.nodePositionsInHeap = 0;
+        // Create map of all nodes and their position within the heap.
+        this.nodePositionsInHeap = new Map();
+        for (var i = 0; i < array.length; i++) {
+          this.nodePositionsInHeap[array[i].id] = i;
+        }
         this.heap = this.buildHeap(array);
       }
       isEmpty() {
-        if (this.heap.length == 0) {
-          return true;
-        }
-        return false;
+        return this.heap.length === 0 ? true : false;
       }
+      buildHeap(array) {
+        var firstParentIdx = Math.floor((array.length - 1) / 2)
+        for (var i = firstParentIdx; i >= 0; i--) {
+          this.siftDown(i, array.length - 1, array)
+        }
+        return array
+      }
+      siftDown(currentIdx, endIdx, heap) {
+        var childOneIdx = currentIdx * 2 + 1;
+        while (childOneIdx <= endIdx) {
+          var childTwoIdx = currentIdx * 2 + 2 <= endIdx ? currentIdx * 2 + 2 : -1;
+          var idxToSwap;
+          if (childTwoIdx != -1 && heap[childTwoIdx].estimatedDistanceToEnd < heap[childOneIdx].estimatedDistanceToEnd) {
+            idxToSwap = childTwoIdx;
+          } else {
+            idxToSwap = childOneIdx;
+          }
+          if (heap[idxToSwap].estimatedDistanceToEnd < heap[currentIdx].estimatedDistanceToEnd) {
+            this.swap(currentIdx, idxToSwap, heap);
+            currentIdx = idxToSwap;
+            childOneIdx = currentIdx * 2 + 1;
+          } else {
+            return;
+          }
+        }
+      }
+      siftUp(currentIdx, heap) {
+        var parentIdx = Math.floor((currentIdx - 1) / 2);
+        while (currentIdx > 0 && heap[currentIdx].estimatedDistanceToEnd < heap[parentIdx].estimatedDistanceToEnd) {
+          this.swap(currentIdx, parentIdx, heap);
+          currentIdx = parentIdx;
+          parentIdx = Math.floor((currentIdx - 1) / 2);
+        }
+      }
+      remove() {
+        if (this.isEmpty()) {
+          return;
+        }
+
+        this.swap(0, this.heap.length - 1, this.heap);
+        var node = this.heap.pop();
+        delete this.nodePositionsInHeap[node.id];
+        this.siftDown(0, this.heap.length - 1, this.heap);
+        return node;
+      }
+      insert(node) {
+        this.heap.append(node)
+        this.nodePositionsInHeap[node.id] = this.heap.length - 1;
+        this.siftUp(this.heap.length - 1, this.heap);
+      }
+      swap(i, j, heap) {
+        this.nodePositionsInHeap[heap[i].id] = j;
+        this.nodePositionsInHeap[heap[j].id] = i;
+        [heap[i], heap[j]] = [heap[j], heap[i]];
+      }
+      containsNode(node) {
+        return this.nodePositionsInHeap.has(node.id);
+      }
+      update(node) {
+        this.siftUp(this.nodePositionsInHeap[node.id], this.heap);
+      }
+
     }
   }
 
