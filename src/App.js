@@ -99,6 +99,9 @@ function App() {
 
   function snakeLogic() {
     // Snake algorithms and logic.
+    if (checkOutOfBounds()) {
+      return null;
+    }
     var startRow = snakeCoordinates[snakeCoordinates.length - 1][0];
     var startCol = snakeCoordinates[snakeCoordinates.length - 1][1];
     var endRow = appleCoordinates[0];
@@ -121,18 +124,16 @@ function App() {
       var currentRow = snakeCoordinates[i][0];
       var currentCol = snakeCoordinates[i][1];
 
-      console.log(snakeCoordinates);
-
       graph[currentRow][currentCol] = 1;
     }
 
     return graph;
   }
   function aStar(startRow, startCol, endRow, endCol, graph) {
-    var nodes = initializeNodes(graph)
+    var nodes = initializeNodes(graph);
 
     var startNode = nodes[startRow][startCol];
-    var endNode = nodes[endRow][endCol]
+    var endNode = nodes[endRow][endCol];
 
     startNode.distanceFromStart = 0;
     startNode.estimatedDistanceToEnd = getManhattanDistance(startNode, endNode);
@@ -332,14 +333,16 @@ function App() {
   const gameOver = () => {
     alert(`Game Over! Your snake length was ${snakeCoordinates.length}.`);
     resetGame();
+
   }
 
   // Check if the snake is moving at of the specified play area.
   const checkOutOfBounds = () => {
     let head = snakeCoordinates[snakeCoordinates.length - 1];
     if (head[0] >= gridSize || head[1] >= gridSize || head[0] < 0 || head[1] < 0) {
-      gameOver();
+      return true;
     }
+    return false;
   }
 
   // Checks if the snake collides with its own body while moving.
@@ -357,7 +360,9 @@ function App() {
   // Use Effect section. **************
   // Handle all the game checks after each render.
   React.useEffect(() => {
-    checkOutOfBounds();
+    if (checkOutOfBounds()) {
+      gameOver();
+    }
     checkSelfCollision();
     checkIfAppleEaten();
     snakeLogic();

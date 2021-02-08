@@ -8,8 +8,8 @@
 
 .snake-head{
   position: absolute;
-  width: 0;
-  height: 0;
+  width: 4%;
+  height: 4%;
 }
 
 .snake-body {

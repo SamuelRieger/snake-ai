@@ -1,4 +1,5 @@
 import React from 'react';
+import snakeHead from '../resources/snake-head.svg';
 
 const Snake = (props) => {
     return (
@@ -17,57 +18,41 @@ const Snake = (props) => {
                 switch (props.direction) {
                     case "UP":
                         styleDirection = {
-                            borderLeft: `${cellPercentageWidth * 0.01/2 * props.pixelGridSize}px solid transparent`,
-                            borderRight: `${cellPercentageWidth * 0.01/2 * props.pixelGridSize}px solid transparent`,
-                            borderBottom: `${cellPercentageWidth * 0.01 * props.pixelGridSize}px solid #000`,
-                            left: `${body[1] * cellPercentageWidth + 0.2}%`,
-                            top: `${body[0] * cellPercentageWidth + 0.3}%`,
+                            left: `${body[1] * cellPercentageWidth - 0.8}%`,
+                            top: `${body[0] * cellPercentageWidth - 1.6 - 0.1}%`,
+                            transform: 'rotate(180deg)',
                         };
                         break;
                     case "DOWN":
                         styleDirection = {
-                            borderTop: `${cellPercentageWidth * 0.01 * props.pixelGridSize}px solid #000`,
-                            borderLeft: `${cellPercentageWidth * 0.01/2 * props.pixelGridSize}px solid transparent`,
-                            borderRight: `${cellPercentageWidth * 0.01/2 * props.pixelGridSize}px solid transparent`,
-                            left: `${body[1] * cellPercentageWidth + 0.2}%`,
-                            top: `${body[0] * cellPercentageWidth - 0.2}%`,
+                            left: `${body[1] * cellPercentageWidth - 0.8}%`,
+                            top: `${body[0] * cellPercentageWidth + 0.1}%`,
                         };
                         break;
                     case "RIGHT":
                         styleDirection = {
-                            borderTop: `${cellPercentageWidth * 0.01/2 * props.pixelGridSize}px solid transparent`,
-                            borderLeft: `${cellPercentageWidth * 0.01 * props.pixelGridSize}px solid #000`,
-                            borderBottom: `${cellPercentageWidth * 0.01/2 * props.pixelGridSize}px solid transparent`,
                             left: `${body[1] * cellPercentageWidth + 0.1}%`,
-                            top: `${body[0] * cellPercentageWidth + 0.2}%`,
+                            top: `${body[0] * cellPercentageWidth - 0.8}%`,
+                            transform: 'rotate(-90deg)',
                         };
                         break;
                     case "LEFT":
                         styleDirection = {
-                            borderTop: `${cellPercentageWidth * 0.01/2 * props.pixelGridSize}px solid transparent`,
-                            borderRight: `${cellPercentageWidth * 0.01 * props.pixelGridSize}px solid #000`,
-                            borderBottom: `${cellPercentageWidth * 0.01/2 * props.pixelGridSize}px solid transparent`,
-                            left: `${body[1] * cellPercentageWidth + 0.4}%`,
-                            top: `${body[0] * cellPercentageWidth + 0.2}%`,
+                            left: `${body[1] * cellPercentageWidth - 1.6 - 0.1}%`,
+                            top: `${body[0] * cellPercentageWidth - 0.8}%`,
+                            transform: 'rotate(90deg)',
                         };
                         break;
                 }
 
-                // Set current style.
-                var currentStyle;
+                // Return snake body or head.
                 if (i === props.snakeCoordinates.length - 1) {
-                    // currentStyle = Object.assign({}, styleDirection, style);
-                    currentStyle = styleDirection;
-                }else {
-                    currentStyle = style;
+                    return (
+                        <img src={snakeHead} alt='snake' className='snake-head' style={styleDirection}/>
+                    )
                 }
-
-                // Set current class.
-                const currentClass = i === props.snakeCoordinates.length - 1 ? "snake-head" : "snake-body";
-
-                // Return snake body classes.
                 return (
-                    <div className={currentClass} key={i} style={currentStyle}></div>
+                    <div className='snake-body' key={i} style={style}></div>
                 )
             })}
         </div>
