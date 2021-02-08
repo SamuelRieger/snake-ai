@@ -8,8 +8,8 @@ const Snake = (props) => {
 
                 // Set current position for each snake body part.
                 const style = {
-                    left: `${body[0] * cellPercentageWidth}%`,
-                    top: `${body[1] * cellPercentageWidth}%`,
+                    left: `${body[1] * cellPercentageWidth}%`,
+                    top: `${body[0] * cellPercentageWidth}%`,
                 };
 
                 // Set triangle style as per current direction.
@@ -20,8 +20,8 @@ const Snake = (props) => {
                             borderLeft: `${cellPercentageWidth * 0.01/2 * props.pixelGridSize}px solid transparent`,
                             borderRight: `${cellPercentageWidth * 0.01/2 * props.pixelGridSize}px solid transparent`,
                             borderBottom: `${cellPercentageWidth * 0.01 * props.pixelGridSize}px solid #000`,
-                            left: `${body[0] * cellPercentageWidth + 0.2}%`,
-                            top: `${body[1] * cellPercentageWidth + 0.3}%`,
+                            left: `${body[1] * cellPercentageWidth + 0.2}%`,
+                            top: `${body[0] * cellPercentageWidth + 0.3}%`,
                         };
                         break;
                     case "DOWN":
@@ -29,8 +29,8 @@ const Snake = (props) => {
                             borderTop: `${cellPercentageWidth * 0.01 * props.pixelGridSize}px solid #000`,
                             borderLeft: `${cellPercentageWidth * 0.01/2 * props.pixelGridSize}px solid transparent`,
                             borderRight: `${cellPercentageWidth * 0.01/2 * props.pixelGridSize}px solid transparent`,
-                            left: `${body[0] * cellPercentageWidth + 0.2}%`,
-                            top: `${body[1] * cellPercentageWidth - 0.2}%`,
+                            left: `${body[1] * cellPercentageWidth + 0.2}%`,
+                            top: `${body[0] * cellPercentageWidth - 0.2}%`,
                         };
                         break;
                     case "RIGHT":
@@ -38,8 +38,8 @@ const Snake = (props) => {
                             borderTop: `${cellPercentageWidth * 0.01/2 * props.pixelGridSize}px solid transparent`,
                             borderLeft: `${cellPercentageWidth * 0.01 * props.pixelGridSize}px solid #000`,
                             borderBottom: `${cellPercentageWidth * 0.01/2 * props.pixelGridSize}px solid transparent`,
-                            left: `${body[0] * cellPercentageWidth + 0.1}%`,
-                            top: `${body[1] * cellPercentageWidth + 0.2}%`,
+                            left: `${body[1] * cellPercentageWidth + 0.1}%`,
+                            top: `${body[0] * cellPercentageWidth + 0.2}%`,
                         };
                         break;
                     case "LEFT":
@@ -47,8 +47,8 @@ const Snake = (props) => {
                             borderTop: `${cellPercentageWidth * 0.01/2 * props.pixelGridSize}px solid transparent`,
                             borderRight: `${cellPercentageWidth * 0.01 * props.pixelGridSize}px solid #000`,
                             borderBottom: `${cellPercentageWidth * 0.01/2 * props.pixelGridSize}px solid transparent`,
-                            left: `${body[0] * cellPercentageWidth + 0.4}%`,
-                            top: `${body[1] * cellPercentageWidth + 0.2}%`,
+                            left: `${body[1] * cellPercentageWidth + 0.4}%`,
+                            top: `${body[0] * cellPercentageWidth + 0.2}%`,
                         };
                         break;
                 }
